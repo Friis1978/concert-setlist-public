@@ -69,7 +69,7 @@ One **Import** menu on the songs page, three ways in:
 - **Set stopwatch** — start, pause, reset. Shared, so a member joining at song four reads the same elapsed time as everyone else.
 - **Says when the set is ending**: `Last of the set` before the encores, `Last song` when nothing follows.
 - **Clear view** strips the screen to the metronome, the clock, and the way back.
-- **Works offline.** Pages are cached by a service worker, because venue wifi cannot be trusted with a gig.
+- **Works offline.** Opening a setlist saves its charts to the device in the background — there is no download button. It fills in whatever the device lacks, re-saves the set when a song was edited, and retries when the connection returns. A status line on the setlist says *Saving this set…*, *Ready for the gig* or — when every page is there but a song has changed since — *Saved, but out of date*, worked out by checking what is actually in the cache. A refresh really re-downloads the charts (the service worker only answers from its cache for normal reads, never for a refresh), so an edited song's new chart replaces the old one on the device. A service worker serves the charts from that cache, because venue wifi cannot be trusted with a gig.
 
 ## Stack
 
