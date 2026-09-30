@@ -49,6 +49,7 @@ One **Import** menu on the songs page, three ways in:
 ### Preparing a song
 
 - **A chord/beat-grid editor.** Each section is a row of framed **bars**, each split into its **beats** (from the time signature). Click a beat to type its chord, drag a chord to another beat, drag a bar's edge to resize it, and drag the bar row to line the chords up over the words. The words and headings are editable, and whole lines or sections can be removed (removing a section confirms first). A live PDF preview shows exactly how it prints and, rasterised, how it looks on stage.
+- **Empty sections can be filled.** A heading with nothing under it — charts often write `Intro 2` to mean "the same again" — shows *0 bars* and used to be a dead end. It now offers **Copy bars from Intro** (the nearest earlier section of the same name; chords and bar widths are copied, the words are left blank) and **Add bars** (a fresh row of empty bars to type chords into).
 - **Section lengths come from the grid** — each bar is a bar, so a section's length (and the whole song's `Total time`) is derived as you edit, and written back on save.
 - **Tempo, time signature and confirmation live on the song**, not on a setlist. Changing the time signature re-grids every bar to the new beats-per-bar; one click confirms a parsed tempo.
 - **Transpose** every chord up or down a semitone, or type a new key (Danish-aware: `H` is B natural) and the chords follow the interval.
