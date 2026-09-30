@@ -6,6 +6,16 @@ Built for **Murphys Outlaws**, and shaped by that: every decision assumes a dark
 
 **Live:** https://concert-setlist.insforge.site
 
+## Screenshots
+
+All shots are iPad landscape, dark mode, and show a fictional demo band — no real charts. Regenerate them with `scripts/seed-demo.mjs` and `scripts/capture-showcase.mjs`.
+
+| | |
+|---|---|
+| ![Songs](page-images/01-songs.png) | ![Song editor](page-images/02-song-editor.png) |
+| ![Setlists](page-images/03-setlists.png) | ![A setlist](page-images/04-setlist.png) |
+| ![Stage view](page-images/05-stage.png) | |
+
 ---
 
 ## What it does
