@@ -100,6 +100,10 @@ The owner can see how the app is used — without collecting anything from anyon
 - **First-party and EU.** Events go through the app's own `/ingest` address to PostHog's EU region, so it works with ad blockers and no visitor data is sent to an unfamiliar domain from the page. Nothing — not even a feature-flag request — leaves the browser before the member answers.
 - **`/admin` (Usage).** A page only the accounts in `ADMIN_EMAILS` can open (everyone else gets a 404, so it does not reveal itself), with a 7 / 30 / 90-day period. *What members have built* comes from the database and covers every band: bands, members, songs and setlists, plus songs added, setlists created and members joined per day (the showcase band is left out). *What members do* comes from PostHog: active members and stage opens per day, what members do, songs imported by source, and errors — only for members who accepted, so treat it as a floor. Every chart has hover values and a table view. Until PostHog is connected the second half says so.
 
+### Error reporting (Sentry)
+
+The owner is told when something breaks. It is **separate from the opt-in counting above**: it runs for everyone — including the stage view on a phone, where nobody is ever asked about analytics, which is where a crash matters most — so it is deliberately strict. **Errors only**: no performance tracing, no session replay, no breadcrumbs, no user, no IP address, no cookies or headers, no request body, and the page address is cut at `?`. Email addresses inside an error message are replaced by `[email]` and long messages are truncated. The rules live in one pure, unit-tested file (`src/lib/sentry-config.ts`). Errors that are simply the app offline ("Failed to fetch", "Load failed") are ignored so they do not bury real ones. It covers browser errors, server errors (Server Components, server actions, API routes via `onRequestError`) and a last-resort `global-error` page. It runs only in production builds, goes to Sentry's EU region, and does nothing unless `NEXT_PUBLIC_SENTRY_DSN` is set (needed at build time). The Privacy page says so. Stack traces are minified because no source maps are uploaded — adding `org`, `project` and `SENTRY_AUTH_TOKEN` to the build config would fix that, at the cost of the build depending on Sentry.
+
 ## Stack
 
 Pinned deliberately. Read `AGENTS.md` before upgrading anything.
@@ -115,6 +119,7 @@ Pinned deliberately. Read `AGENTS.md` before upgrading anything.
 | Vision | OpenRouter → `google/gemini-2.5-flash`, reads scans/images into charts |
 | Email | Resend |
 | Analytics | PostHog (EU), opt-in — see [Usage analytics](#usage-analytics-and-the-admin-page) |
+| Errors | Sentry (EU), errors only, scrubbed — see [Error reporting](#error-reporting-sentry) |
 
 ## Running locally
 
@@ -146,7 +151,7 @@ RESEND_API_KEY=
 RESEND_FROM_EMAIL=
 ```
 
-`NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN` switches usage analytics on (and is needed at build time). `POSTHOG_PERSONAL_API_KEY`, `POSTHOG_PROJECT_ID` and `POSTHOG_API_HOST` are server-only and feed the admin page; `ADMIN_EMAILS` says who may open it, and `SUPPORT_EMAIL` (default: the first admin) receives support messages. All optional — see `.env.example`.
+`NEXT_PUBLIC_SENTRY_DSN` switches error reporting on (also build time). `NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN` switches usage analytics on (and is needed at build time). `POSTHOG_PERSONAL_API_KEY`, `POSTHOG_PROJECT_ID` and `POSTHOG_API_HOST` are server-only and feed the admin page; `ADMIN_EMAILS` says who may open it, and `SUPPORT_EMAIL` (default: the first admin) receives support messages. All optional — see `.env.example`.
 
 `OPENROUTER_API_KEY` (server-only) powers the vision transcription of scans and images. It must also be set in the deployment env (`deployments env set`).
 
