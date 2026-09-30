@@ -74,6 +74,15 @@ One **Import** menu on the songs page, three ways in:
 - **Clear view** strips the screen to the metronome, the clock, and the way back.
 - **Works offline.** Opening a setlist saves its charts to the device in the background — there is no download button. It fills in whatever the device lacks, re-saves the set when a song was edited, and retries when the connection returns. A status line on the setlist says *Saving this set…*, *Ready for the gig* or — when every page is there but a song has changed since — *Saved, but out of date*, worked out by checking what is actually in the cache. A refresh really re-downloads the charts (the service worker only answers from its cache for normal reads, never for a refresh), so an edited song's new chart replaces the old one on the device. A service worker serves the charts from that cache, because venue wifi cannot be trusted with a gig.
 
+## Usage analytics and the admin page
+
+The owner can see how the app is used — without collecting anything from anyone who has not agreed.
+
+- **Opt-in.** Usage counting is off until a member accepts a short notice, shown on the preparation pages only (setlists, songs, settings, sign-in) and **never on the stage view**. The choice is remembered on the device, and it survives signing out. A public `/privacy` page says exactly what is and is not collected.
+- **Counts and choices, never content.** Events are things like *song imported* (drive or photo, how many pages), *song saved*, *setlist created*, *stage opened*, *key changed on stage*, *set saved for offline*, *invite created*, plus handled errors. No titles, lyrics, chords or chart images, no session replay, no autocapture; members are identified by account id only, never email or name.
+- **First-party and EU.** Events go through the app's own `/ingest` address to PostHog's EU region, so it works with ad blockers and no visitor data is sent to an unfamiliar domain from the page. Nothing — not even a feature-flag request — leaves the browser before the member answers.
+- **`/admin` (Usage).** A page only the accounts in `ADMIN_EMAILS` can open (everyone else gets a 404, so it does not reveal itself), with a 7 / 30 / 90-day period. *What members have built* comes from the database and covers every band: bands, members, songs and setlists, plus songs added, setlists created and members joined per day (the showcase band is left out). *What members do* comes from PostHog: active members and stage opens per day, what members do, songs imported by source, and errors — only for members who accepted, so treat it as a floor. Every chart has hover values and a table view. Until PostHog is connected the second half says so.
+
 ## Stack
 
 Pinned deliberately. Read `AGENTS.md` before upgrading anything.
@@ -88,6 +97,7 @@ Pinned deliberately. Read `AGENTS.md` before upgrading anything.
 | PDF | `pdfjs-dist` 6.1 (extraction + rasterisation), `jspdf` (typeset charts) |
 | Vision | OpenRouter → `google/gemini-2.5-flash`, reads scans/images into charts |
 | Email | Resend |
+| Analytics | PostHog (EU), opt-in — see [Usage analytics](#usage-analytics-and-the-admin-page) |
 
 ## Running locally
 
@@ -118,6 +128,8 @@ OPENROUTER_API_KEY=
 RESEND_API_KEY=
 RESEND_FROM_EMAIL=
 ```
+
+`NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN` switches usage analytics on (and is needed at build time). `POSTHOG_PERSONAL_API_KEY`, `POSTHOG_PROJECT_ID` and `POSTHOG_API_HOST` are server-only and feed the admin page; `ADMIN_EMAILS` says who may open it. All optional — see `.env.example`.
 
 `OPENROUTER_API_KEY` (server-only) powers the vision transcription of scans and images. It must also be set in the deployment env (`deployments env set`).
 
@@ -178,6 +190,6 @@ The maths lives in `src/lib/**` as pure functions with unit tests, so "is the ma
 
 ### Not yet verified on hardware
 
-Two-device sync (including the leader-set key, which has only been run as the leader), offline playback, the count-in and the tempo-map handover are unit-tested and reasoned through, but have never been run on two phones in a room or on a device in airplane mode.
+Two-device sync (including the leader-set key, which has only been run as the leader), the PostHog connection (verified against a stand-in endpoint — no real project token has been used yet), offline playback, the count-in and the tempo-map handover are unit-tested and reasoned through, but have never been run on two phones in a room or on a device in airplane mode.
 
 Real songs broke code that passed synthetic tests over and over during development — a chord with a marking merged onto it, a heading naming an instrument, a tempo written inside brackets. Treat passing tests as necessary and not sufficient for anything touching sync, audio or PDF text, and check a change against the band's actual charts before believing it.
