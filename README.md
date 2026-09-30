@@ -15,6 +15,15 @@ Built for **Murphys Outlaws**, and shaped by that: every decision assumes a dark
 
 **Live:** https://concert-setlist.insforge.site
 
+## Footer, terms and support
+
+Every page outside the stage view ends in the same footer — the logo (home), **Privacy Policy**, **Terms & Conditions**, **Support** and **Cookie settings** — and the landing page has its own light version of it.
+
+- **Cookie settings** reopens the usage-analytics choice, so a member can change their mind: it says whether analytics is currently on or off and offers *Yes* or *No thanks*. It is hidden when analytics isn't configured, since there is nothing to choose.
+- **Terms & Conditions** (`/terms`) is plain-language starter text for a small band tool: what Setlist is, accounts and bands, that the songs stay yours, fair use and limits of responsibility. Have it reviewed before relying on it as a legal document.
+- **Support** (`/support`) is a contact form that works signed out: name, email (prefilled when signed in), subject and message. It emails the owner through Resend with *Reply-To* set to the visitor, so a plain reply reaches them. It is guarded by a hidden honeypot field (a bot gets a fake success and nothing is sent) and a per-address limit of 5 messages an hour. If email isn't configured, the visitor is told it didn't go through and the cause is logged, not shown.
+- The messages go to `SUPPORT_EMAIL`, or the first `ADMIN_EMAILS` entry when that isn't set.
+
 ## Landing page
 
 Signed-out visitors land on a public landing page (`src/components/landing/`), in English: the headline *Concert Setlist*, a laptop (the setlist) and a phone (the stage view at 124 BPM with a count-in and the marked lyric line) showing **real dark-mode screenshots** of the app over a concert photo, a *Stage Tools* block with **Try the setlist builder** and **See the features**, five features with a line each — *Setlist Builder*, *On-stage Chord Charts*, *Tempo & Metronome Sync*, *Sharing & Collaboration*, *Song Library* (offline is deliberately not advertised: the stage page itself is not cached, only the charts) — and a light band underneath: a second look at the app (song editor and song library) beside *Built for creatives. Powered by modern technology.* with Next.js, TypeScript, React and PostgreSQL and why each. It uses its own **landing** colour tokens (`--landing-*`: an always-dark hero with an indigo accent over a light band) and is responsive down to a phone. The backdrop photo is `public/landing/stage.jpg` — swap the file to change the mood (credit in `public/landing/CREDITS.md`). Signed-in members skip it and go straight to their setlists. The image at the top of this README is a 4K render of this page. Backdrop photo: *Photo of Band Performing to Crowd of People at a Concert* by [Andre Moura](https://www.pexels.com/@oandremoura/), via Pexels (free licence).
@@ -137,7 +146,7 @@ RESEND_API_KEY=
 RESEND_FROM_EMAIL=
 ```
 
-`NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN` switches usage analytics on (and is needed at build time). `POSTHOG_PERSONAL_API_KEY`, `POSTHOG_PROJECT_ID` and `POSTHOG_API_HOST` are server-only and feed the admin page; `ADMIN_EMAILS` says who may open it. All optional — see `.env.example`.
+`NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN` switches usage analytics on (and is needed at build time). `POSTHOG_PERSONAL_API_KEY`, `POSTHOG_PROJECT_ID` and `POSTHOG_API_HOST` are server-only and feed the admin page; `ADMIN_EMAILS` says who may open it, and `SUPPORT_EMAIL` (default: the first admin) receives support messages. All optional — see `.env.example`.
 
 `OPENROUTER_API_KEY` (server-only) powers the vision transcription of scans and images. It must also be set in the deployment env (`deployments env set`).
 
