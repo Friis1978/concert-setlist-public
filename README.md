@@ -7,11 +7,17 @@
 
 # concert-setlist
 
+![Concert Setlist — the app on a laptop and a phone, on a stage](page-images/concert-setlist-hero.png)
+
 A live-performance song viewer for a working band. Songs come from Google Drive; the band reads them on stage, moves between them together, and plays to a shared metronome.
 
 Built for **Murphys Outlaws**, and shaped by that: every decision assumes a dark room, a phone on a mic stand, and no chance to fix anything mid-song.
 
 **Live:** https://concert-setlist.insforge.site
+
+## Landing page
+
+Signed-out visitors land on a public, always-dark landing page (`src/components/landing/`), in Danish: the headline *CONCERT SETLIST*, a glowing **PRØV GRATIS** button, a laptop and a phone showing **real screenshots** of the app (the setlist, and the stage view at 124 BPM with a count-in and the marked lyric line), six feature tiles — *Sange, Akkorder & Transponering*, *Visuel Metronom & Auto-tracking*, *Live Stage Sync*, *Setlist Builder*, *Smart Import & AI*, *Offline Funktionalitet* — and a "built with" footer (Next.js, TypeScript, React, PostgreSQL). The stage backdrop — blue and purple beams, haze, the band in silhouette, the crowd — is pure CSS/SVG. It uses its own always-dark **landing** colour tokens (`--landing-*`) and is responsive down to a phone. Signed-in members skip it and go straight to their setlists. The image at the top of this README is a 4K render of this page.
 
 ## Screenshots
 
