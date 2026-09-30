@@ -24,11 +24,15 @@ All shots are iPad landscape, dark mode, and show a fictional demo band — no r
 
 One **Import** menu on the songs page, three ways in:
 
-- **Google Drive** — pick **PDFs, images (PNG/JPEG/HEIC), or Google Docs**. Text PDFs have their text extracted *with coordinates*, so the app knows where every line sits. A scan, an image-in-PDF, a Drive image, or a Google Doc (exported to PDF first) that has no text layer is **read by a vision model** and typeset into a real, editable chart.
+- **Google Drive** — pick **PDFs, images (PNG/JPEG/HEIC), or Google Docs**. The page scrolls to the top first, because Google's picker opens there. Text PDFs have their text extracted *with coordinates*, so the app knows where every line sits. A scan, an image-in-PDF, a Drive image, or a Google Doc (exported to PDF first) that has no text layer is **read by a vision model** and typeset into a real, editable chart. **A scanned PDF is read page by page**, so a two-page chart keeps its second page; if any page fails the read is dropped rather than saving a chart that stops halfway.
 - **Photo from the device** — a phone snap or scan (HEIC/PNG/JPEG); the AI reads it into a chart you check in a review card before saving. The photo itself is not kept.
 - **Reads the structure off the chart** — sections, their labels, and the tempo markings written between them. Headings can be two words (`Jam Intro`) or name a player (`Solo drums`).
+- **Understands Danish headings.** `Vers`, `Omkvæd` (and its handwritten spellings), `Bro`, `Mellemspil` and `Slut` are recognised as section headings. When a chart is read by the vision model they are shown in English — **Verse**, **Chorus**, **Bridge**, **Interlude**, **Ending** — with any number kept (`Vers 1.` → `Verse 1.`).
+- **Chords stay with their lyric.** A vision-read chart is saved with each chord row already paired to the line beneath it, so a chord the model misreads from handwriting (`H5susy`, `AS-9`) lands in the right beat for you to correct instead of turning the whole row into lyrics. If the model puts a line's words in the chord field, they are moved back to the lyrics, and upper-cased chord qualities (`H5SUS4`) are lower-cased.
+- **Four bars a line, chords paired up.** Each line starts with 4 bars. When a line has more chords than bars, neighbouring chords share a bar on **beats 1 and 3** (a lone chord takes the downbeat); a line only grows past 4 bars for more than 8 chords. Danish `H` chords and extensions like `A5-9` and `C5-7` are read as chords.
 - **Reads the tempo off the page.** A BPM found by the parser stays *unconfirmed* until a person agrees — a number on a chart could be a year, a bar count or a track number. One click confirms it in the editor.
 - **A single import opens straight into the editor** to check and adjust.
+- **A song with a saved chart is always editable**, even before its PDF has a text layer.
 - **Delete** removes the song, its rendered pages and its original from storage, and says how many setlists lose it first.
 
 ### Preparing a song
