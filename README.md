@@ -15,7 +15,7 @@ Built for **Murphys Outlaws**, and shaped by that: every decision assumes a dark
 
 ## Screenshots
 
-All shots are iPad landscape, dark mode, and show a fictional demo band — no real charts. Regenerate them with `scripts/seed-demo.mjs` and `scripts/capture-showcase.mjs`.
+All shots are iPad landscape, dark mode, and show a fictional demo band — 20 invented songs across 10 setlists, no real charts. Regenerate them with `scripts/seed-demo.mjs` and `scripts/capture-showcase.mjs`.
 
 | | |
 |---|---|
