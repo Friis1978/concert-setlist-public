@@ -207,6 +207,6 @@ The maths lives in `src/lib/**` as pure functions with unit tests, so "is the ma
 
 ### Not yet verified on hardware
 
-Offline has been run on a real iPhone (Safari): a saved set opens on the stage view in airplane mode with the app closed first. The leader-set key has been run across two devices (per the maintainer). The PostHog connection (the token is live but no event has been checked in the PostHog project yet), the count-in and the tempo-map handover are unit-tested and reasoned through, but have not been checked on real hardware.
+Offline has been run on a real iPhone (Safari): a saved set opens on the stage view in airplane mode with the app closed first. The leader-set key has been run across two devices (per the maintainer). The PostHog connection has been checked live (page views, identify and opt-in events arrive in the project after accepting the banner). The count-in and the tempo-map handover are unit-tested and reasoned through, but have not been checked on real hardware.
 
 Real songs broke code that passed synthetic tests over and over during development — a chord with a marking merged onto it, a heading naming an instrument, a tempo written inside brackets. Treat passing tests as necessary and not sufficient for anything touching sync, audio or PDF text, and check a change against the band's actual charts before believing it.
