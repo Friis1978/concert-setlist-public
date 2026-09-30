@@ -174,7 +174,7 @@ Every table is RLS-protected. Two traps worth knowing before writing queries:
 npx @insforge/cli deployments deploy
 ```
 
-Google OAuth redirect URLs must be registered in InsForge auth settings for **every** domain. A new domain silently breaks sign-in until it is added.
+The app is also reachable at **https://setlist.bandfolio.ai**: the domain was attached with `npx @insforge/cli domains attach setlist.bandfolio.ai` (DNS is at GoDaddy; Bandfolio's wildcard already routes there) and its sign-in addresses are in `insforge.toml` (`allowed_redirect_urls`, applied with `insforge config apply`). To make it the *primary* address, set `NEXT_PUBLIC_APP_URL` (a build-time variable) to it in the deployment env and redeploy — sign-in redirects and invite links are built from it; the Drive callback uses the request's own origin but must also be added as an authorised redirect URI in the Google Cloud console. Google OAuth redirect URLs must be registered in InsForge auth settings for **every** domain. A new domain silently breaks sign-in until it is added.
 
 ## Layout
 
